@@ -102,6 +102,7 @@ export default function JoinPage() {
             <Reveal key={card.title} delay={i * 120}>
               <PhotoPlaceholder
                 label={card.photo}
+                src={card.photoSrc}
                 ratio="wide"
               />
               <h3 className="mt-7 text-[22px] font-semibold tracking-tight">

@@ -27,6 +27,7 @@ export default function Home() {
       {/* ── 1. HERO ──────────────────────────────────────────────────────── */}
       <ParallaxPanel
         label={home.hero.photo}
+        src={home.hero.photoSrc}
         minHeight="min-h-svh"
       >
         <Container className="flex min-h-svh flex-col items-center justify-center py-32 text-center">
@@ -79,6 +80,7 @@ export default function Home() {
       {/* ── 3. ZOOM REVEAL ───────────────────────────────────────────────── */}
       <ZoomReveal
         label={home.breakPanel.photo}
+        src={home.breakPanel.photoSrc}
         kicker="Consulting for good"
         title={"Real clients.\nReal deliverables."}
         subtitle="Every semester, a new cohort takes on a scoped engagement and hands over work the organization actually owns."
@@ -140,6 +142,7 @@ export default function Home() {
                 </div>
                 <PhotoPlaceholder
                   label={card.photo}
+                  src={card.photoSrc}
                   ratio="wide"
                 />
               </div>
@@ -150,7 +153,8 @@ export default function Home() {
 
       {/* ── 6. CIRCLE WIPE ───────────────────────────────────────────────── */}
       <CircleWipe
-        label={home.intro.photo}
+        label={home.circle.photo}
+        src={home.circle.photoSrc}
         quote={home.breakPanel.quote}
         attribution="Texas 180 Degrees Consulting"
       />

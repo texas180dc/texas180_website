@@ -9,6 +9,7 @@ export default function PageHero({ eyebrow, heading, body, photo, photoSrc }) {
   return (
     <ParallaxPanel
       label={photo}
+      src={photoSrc}
       minHeight="min-h-[58svh] md:min-h-[66svh]"
     >
       <Container className="flex min-h-[58svh] flex-col justify-end pb-20 pt-32 md:min-h-[66svh] md:pb-28">

@@ -114,7 +114,8 @@ export default function ServicesPage() {
           </Reveal>
           <Reveal delay={120}>
             <PhotoPlaceholder
-              label="Texas 180 consultants at an end-of-semester showcase"
+              label={services.cta.photo}
+              src={services.cta.photoSrc}
               ratio="wide"
             />
           </Reveal>

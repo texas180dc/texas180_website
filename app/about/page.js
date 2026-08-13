@@ -74,7 +74,11 @@ export default function AboutPage() {
         <div className="mt-10 grid gap-x-8 gap-y-12 sm:grid-cols-2 lg:grid-cols-3">
           {about.team.officers.map((m, i) => (
             <Reveal key={m.name} delay={(i % 3) * 110}>
-              <PhotoPlaceholder label={`Headshot — ${m.name}`} ratio="square" />
+              <PhotoPlaceholder
+                label={m.photo ? `${m.name}, ${m.role}` : `Headshot — ${m.name}`}
+                src={m.photo}
+                ratio="square"
+              />
               <p className="mt-5 text-[18px] font-semibold tracking-tight">
                 {m.name}
               </p>
@@ -150,8 +154,8 @@ export default function AboutPage() {
           <Reveal delay={120}>
             <PhotoPlaceholder
               label="The Texas 180 branch at our end-of-year celebration"
+              src="/photos/banquet-group.jpg"
               ratio="wide"
-              subtle
             />
           </Reveal>
         </div>

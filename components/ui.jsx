@@ -122,7 +122,7 @@ export function Reveal({ children, delay = 0, className = "", as: Tag = "div" })
  * A green placeholder block marking where a real photo goes.
  *
  * Drop a real image in later by replacing the whole component with:
- *   <Image src="/photos/team.jpg" alt="…" fill className="object-cover" />
+ *   pass a `src` prop naming a file inside public/photos/
  *
  * Props:
  *   label   — caption describing what photo belongs here
@@ -134,7 +134,7 @@ export function PhotoPlaceholder({
   ratio = "wide",
   subtle = false,
   className = "",
-  src, // e.g. "/photos/trio-photo.jpg" — when set, the real image is shown
+  src, // path to a file in public/photos — when set, the real image is shown
 }) {
   const ratios = {
     hero: "aspect-[16/9] md:aspect-[21/9]",
@@ -229,7 +229,7 @@ export function ParallaxPanel({
             // Heroes are the first thing on screen — load eagerly, not lazily.
             // Lowercase attribute name: React 18 doesn't recognise the
             // camelCase `fetchPriority` and warns on every render.
-            fetchPriority="high"
+            fetchpriority="high"
             decoding="async"
             className="h-full w-full object-cover"
           />
