@@ -1,0 +1,167 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    /*
+     * No `scroll-behavior: smooth` here. It makes the browser animate every
+     * anchor jump, and on pages with pinned sections that animation fights
+     * the scroll effects and reads as a pause.
+     */
+    scroll-padding-top: 5rem;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  body {
+    /*
+     * Prevent horizontal scrollbars from full-bleed sections.
+     * `clip` not `hidden`: overflow:hidden turns this into a scroll container,
+     * which makes every `position: sticky` descendant judder or stop working.
+     */
+    overflow-x: clip;
+  }
+
+  ::selection {
+    background-color: #8dc63f;
+    color: #141414;
+  }
+
+  /* Visible focus ring for keyboard users only */
+  :focus-visible {
+    outline: 2px solid #8dc63f;
+    outline-offset: 3px;
+    border-radius: 2px;
+  }
+}
+
+@layer components {
+  /*
+   * SCROLL REVEAL
+   * Elements start hidden and animate in when they enter the viewport.
+   * components/ui.jsx adds .is-visible via IntersectionObserver.
+   */
+  .reveal {
+    opacity: 0;
+    transform: translate3d(0, 32px, 0);
+    transition:
+      opacity 0.9s cubic-bezier(0.16, 1, 0.3, 1),
+      transform 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .reveal.is-visible {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+    /*
+     * Drop the compositor layer once the animation is done. Leaving
+     * will-change on permanently keeps hundreds of layers in memory and
+     * slows scrolling down rather than speeding it up.
+     */
+    will-change: auto;
+  }
+
+  /*
+   * MARQUEE
+   * A continuously scrolling row. The track holds two identical copies of the
+   * list and slides left by exactly half its width, so the moment it finishes
+   * the second copy sits precisely where the first began and the loop is
+   * invisible.
+   *
+   * Items use margin-right rather than flex `gap`: with gap, the track is
+   * (2n - 1) gaps wide, so half of it is not exactly one copy and the loop
+   * would jump by one gap on every cycle.
+   *
+   * This is a plain CSS animation — no JavaScript, no scroll listener, and it
+   * runs on the compositor, so it costs nothing on the main thread.
+   */
+  .marquee {
+    -webkit-mask-image: linear-gradient(
+      to right,
+      transparent,
+      black 6%,
+      black 94%,
+      transparent
+    );
+    mask-image: linear-gradient(
+      to right,
+      transparent,
+      black 6%,
+      black 94%,
+      transparent
+    );
+  }
+
+  .marquee-track {
+    display: flex;
+    width: max-content;
+    animation: marquee-slide var(--marquee-duration, 45s) linear infinite;
+  }
+
+  .marquee-track.is-reverse {
+    animation-direction: reverse;
+  }
+
+  /* Pause on hover so people can actually read a name they spotted */
+  .marquee:hover .marquee-track,
+  .marquee:focus-within .marquee-track {
+    animation-play-state: paused;
+  }
+
+  @keyframes marquee-slide {
+    from {
+      transform: translate3d(0, 0, 0);
+    }
+    to {
+      transform: translate3d(-50%, 0, 0);
+    }
+  }
+
+  /*
+   * COLOR BLEED
+   * Softens the seam where a light section meets a dark one so the two
+   * backgrounds wash together instead of butting against a hard edge.
+   */
+  .bleed-to-dark::after,
+  .bleed-to-light::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 14vh;
+    pointer-events: none;
+  }
+
+  .bleed-to-dark::after {
+    background: linear-gradient(to bottom, transparent, #141414);
+  }
+
+  .bleed-to-light::after {
+    background: linear-gradient(to bottom, transparent, #f5f5f7);
+  }
+}
+
+/*
+ * MOTION IS ALWAYS ON.
+ *
+ * The usual practice is to switch animations off for visitors who have set
+ * "reduce motion" in their operating system, which some people rely on because
+ * movement triggers dizziness or nausea. That behaviour is deliberately
+ * disabled here.
+ *
+ * To turn it back on:
+ *   1. set  respectReducedMotion: true  in lib/content.js
+ *   2. uncomment the block below
+ *
+ * @media (prefers-reduced-motion: reduce) {
+ *   html { scroll-behavior: auto; }
+ *   .reveal { opacity: 1 !important; transform: none !important; transition: none !important; }
+ *   .marquee-track { animation: none !important; overflow-x: auto; }
+ *   *, *::before, *::after {
+ *     animation-duration: 0.01ms !important;
+ *     animation-iteration-count: 1 !important;
+ *     transition-duration: 0.01ms !important;
+ *   }
+ * }
+ */

@@ -1,0 +1,16 @@
+{
+  "permissions": {
+    "allow": [
+      "Read(//usr/local/bin/**)",
+      "Read(//c/Users/shivj/.nvm/versions/**)",
+      "Bash(command -v nvm)",
+      "Read(//c/Program Files/**)",
+      "Read(//c/Users/shivj/AppData/Roaming/**)",
+      "Bash(find \"/c/Users/shivj\" -name \"node.exe\" -maxdepth 8 2>/dev/null | head -5; find \"/c/Program Files\" -name \"node.exe\" -maxdepth 5 2>/dev/null | head -5)",
+      "Bash(ls \"/c/Program Files/nodejs/npm\" 2>/dev/null && echo \"found\" || echo \"not found\" *)",
+      "PowerShell(& cmd /c \"where node\" 2>&1)",
+      "PowerShell(& cmd /c \"where npm\" 2>&1)",
+      "mcp__Claude_Preview__preview_start"
+    ]
+  }
+}
