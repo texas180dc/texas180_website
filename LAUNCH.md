@@ -22,6 +22,44 @@ Phases 0 and 4 are the long poles. **Start both now** — everything else is qui
 
 ---
 
+## Can the public edit the site?
+
+**No. Not even a little.** This is worth understanding properly, because it's the difference between how this site works and how Squarespace or a Google Doc works.
+
+### Why visitors physically cannot change anything
+
+When someone visits `texas180dc.org`, their browser downloads a finished HTML page, a stylesheet, and some JavaScript. That's a **copy**. They can open developer tools and edit that copy on their own screen all day — change the headline, delete a photo, turn the background pink. It affects nothing. Refresh and it's back. Nobody else ever sees it.
+
+That's true of every website. What makes some sites editable is that they have a **way to write back to the server** — a login page, an admin panel, a comment box, a contact form that saves to a database. Squarespace has all of that, which is why it needs accounts and passwords.
+
+This site has **none of it**:
+
+| Thing that would let someone write to your site | Present here? |
+|---|---|
+| Admin panel or CMS login | No |
+| User accounts of any kind | No |
+| Database | No |
+| Comment or review section | No |
+| File upload | No |
+| Any form that submits to a server | No — the contact links open the visitor's own email app |
+
+There is no door to lock, because there is no door. The site is a stack of pre-built files served to anyone who asks.
+
+### What *can* be changed, and by whom
+
+The site is read-only. The **things that produce** the site are not. There are exactly four, and securing these is the real task:
+
+| What | Who can change it | If someone got in |
+|---|---|---|
+| **GitHub repo** | People you add as collaborators | They could alter the code, and it would auto-deploy |
+| **Vercel account** | People you invite to the team | They could change settings or redeploy |
+| **Domain registrar** | Whoever holds the login | They could point `texas180dc.org` anywhere — the worst case |
+| **Google Search Console** | People you add as users | They could de-index the site from search |
+
+So "the public can't edit it" is already true by default. The work is making sure the officer accounts are locked down — that's Phase 7 below.
+
+---
+
 ## Phase 0 — Content gaps
 
 Nothing here is code. It's the only part that needs other people, so it's the only part that can block you.
@@ -191,6 +229,43 @@ Append `{ name: "…", logo: "….png" }` to `projects.clients` and drop the fil
 `SCROLL_EFFECTS` at the top of `lib/content.js`. Any switch set to `false` becomes a plain static section.
 
 Note `respectReducedMotion: false` — animations currently play even for visitors whose OS is set to reduce motion. Some people rely on that setting because movement causes dizziness. To restore it: set it to `true` and uncomment the block at the bottom of `app/globals.css`.
+
+---
+
+## Phase 7 — Lock down the four accounts
+
+The site is read-only to the public by default. These four accounts are what actually need protecting. Fifteen minutes, once.
+
+**1. GitHub**
+- Set the repo to **Private** (Settings → General → Danger Zone → Change visibility). Public is not unsafe — strangers still can't push — but private avoids any confusion.
+- **Turn on 2FA** for every collaborator. GitHub Settings → Password and authentication.
+- Protect `main`: Settings → Branches → Add rule → `main` → tick **Require a pull request before merging**. Now nobody, including you, can overwrite the site by accident.
+- Review Settings → Collaborators. Remove anyone who has graduated.
+
+**2. Vercel**
+- Invite officers with **Member**, not Owner. Only the President and VP need Owner.
+- Turn on 2FA.
+- Never share one login — use invites, so removing someone is one click.
+
+**3. Domain registrar (the important one)**
+- Turn on 2FA.
+- Leave the **domain lock** on. It's on by default and blocks transfers.
+- Make sure the registrant email is an address the org controls, and that two officers can read it. Domain renewal and transfer approvals go there — losing access to that inbox is how organisations lose their domain.
+
+**4. Google Search Console**
+- Add officers as **Full** or **Restricted** users. Only one person needs to be Owner.
+
+### What to do if something looks wrong
+
+Because everything is in git, you can undo anything:
+
+```powershell
+git log --oneline          # find the last good commit
+git revert <commit-id>     # undo it, keeping history
+git push
+```
+
+Vercel redeploys automatically, and the site is back to normal in about a minute. You can also click **Rollback** on any previous deployment in the Vercel dashboard, which is faster.
 
 ---
 
