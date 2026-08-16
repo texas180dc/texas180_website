@@ -1,30 +1,34 @@
-# ⏰ DEADLINE: Squarespace ends 20 August
+# ⏰ Squarespace site ends 20 August
 
-Squarespace has been cancelled and the old site goes dark on **20 August**.
-Three things must happen before then, in this order.
+## ✅ The domain is safe — checked 16 Aug 2026
 
-## 1. TODAY — make sure you still own the domain
+The ICANN lookup came back clear. You do **not** need to rush a domain transfer.
 
-**This is the only step that can't be undone.** Everything else is recoverable;
-losing `texas180dc.org` is not.
+| Field | Value | What it means |
+|---|---|---|
+| Registrar | Squarespace Domains II LLC | They still hold it |
+| Registry Expiration | **26 Aug 2027** | Paid for another year |
+| Updated | 13 Aug 2026 | Renewed three days ago |
+| Domain Status | `renewPeriod` | Confirms the renewal went through |
+| Nameservers | `ns-cloud-*.googledomains.com` | DNS is managed from the Squarespace domains panel |
+| Created | 26 Aug 2018 | Confirms the Fall 2018 founding date |
 
-1. Go to **lookup.icann.org**, search `texas180dc.org`
-2. Read two lines and write them down:
-   - **Registrar** — who holds it
-   - **Registry Expiry Date** — when it lapses
+**The domain renewal is separate from the site subscription.** Cancelling the
+site plan doesn't touch it — it's paid until August 2027. Cancelling a
+Squarespace *site* keeps your access to `domains.squarespace.com` for DNS.
 
-**If Registrar says Squarespace (or Google LLC):** the domain likely came bundled
-with the plan you cancelled. Log into Squarespace right now and check
-**Settings → Domains**. You need it to say the domain is registered until its
-expiry date, *not* that it ends with the subscription. If it's ending, either
-renew the domain on its own (~$20/yr, Squarespace sells this separately from the
-site plan) or start a transfer to Cloudflare immediately — transfers take 5–7
-days, so there is no slack.
+So the plan is simple: **leave the domain where it is and just repoint the DNS
+at Vercel.** No transfer, no deadline, no risk.
 
-**If Registrar is anyone else** (GoDaddy, Namecheap…) — you're fine. The domain
-is paid for separately and cancelling Squarespace doesn't touch it.
+> **One thing to check:** the renewal on 13 Aug means you were probably charged
+> for the domain (~$20) separately from the site plan. That's expected and
+> correct — it's what keeps the domain alive.
 
-## 2. TODAY — save everything off the old site
+> **`clientTransferProhibited`** is in the status list — that's the standard
+> transfer lock, on by default. You'd only need to unlock it if you later move
+> to Cloudflare Registrar to save ~$10/yr. Worth doing before Aug 2027, not now.
+
+## Still time-sensitive — save the files off the old site
 
 On **21 August these files are gone permanently.** The site is still up now.
 
@@ -41,11 +45,16 @@ On **21 August these files are gone permanently.** The site is still up now.
 > tile instead of a broken image. But you'd have to re-source them from each
 > organisation.
 
-## 3. Before the 20th — get the new site live
+## Then — get the new site live
 
-Follow the steps below. If the domain switch isn't finished by the 20th,
-`texas180dc.org` will show nothing for a few days. Not fatal, but avoidable —
-and Google may drop you from results if it stays down.
+Follow the steps below. Because the domain is safe, there's no hard deadline on
+the DNS switch. But `texas180dc.org` will show a Squarespace "site not found"
+page from the 20th until you repoint it, so sooner is better — Google can drop a
+site that's down when it happens to crawl.
+
+**Because the domain stays at Squarespace, Step 3 gets simpler.** You add the
+Vercel DNS records at `domains.squarespace.com` instead of anywhere new. The
+domain panel stays accessible after the site plan ends.
 
 ---
 
@@ -173,14 +182,11 @@ get sign-off before touching the real domain.
 > with the plan, cancelling first can put `texas180dc.org` into a recovery
 > state that costs $80–200 to get back.
 
-### 3a. Find out who holds the domain
+### 3a. Already done ✅
 
-1. Go to **lookup.icann.org**
-2. Type `texas180dc.org` → Lookup
-3. Find the **Registrar** line and write it down
-
-That name tells you where to log in for the next part. It'll be Squarespace,
-Google, GoDaddy, Namecheap, or similar.
+The lookup confirmed: **Squarespace Domains II LLC**, paid until 26 Aug 2027.
+You manage its DNS at **domains.squarespace.com** — that stays available after
+the site plan ends.
 
 ### 3b. Tell Vercel about the domain
 
@@ -192,12 +198,18 @@ Google, GoDaddy, Namecheap, or similar.
 4. **Leave this tab open.** Use the values Vercel shows you, not the ones above,
    in case they've changed.
 
-### 3c. Add those records at your registrar
+### 3c. Add those records at Squarespace
 
-1. Log in wherever step 3a said
-2. Find **DNS**, **DNS settings**, or **Manage domain**
-3. Add the two records exactly as Vercel showed
-4. Save
+1. Go to **domains.squarespace.com** and sign in
+2. Click `texas180dc.org` → **DNS** (or **DNS Settings**)
+3. **Delete or edit the existing `A` and `CNAME` records** that currently point
+   at Squarespace's own servers — otherwise they fight the new ones
+4. Add the two records exactly as Vercel showed you
+5. Save
+
+> Your nameservers are `ns-cloud-*.googledomains.com` — that's normal.
+> Squarespace runs its domains on Google's DNS since acquiring Google Domains.
+> You edit records through the Squarespace panel, not Google's.
 
 Now wait. Usually 10–30 minutes, occasionally up to 48 hours. Vercel's Domains
 page shows a green tick when it's working and sets up HTTPS automatically.
@@ -205,14 +217,14 @@ page shows a green tick when it's working and sets up HTTPS automatically.
 **✅ Check:** `https://www.texas180dc.org` loads the new site, on your laptop
 **and** on your phone with wifi off.
 
-### 3d. Only now, deal with Squarespace
+### 3d. Keep paying for the domain only
 
-1. **Download anything you still want from the old site first** — nine client
-   logos on the new site currently load from Squarespace and will break when
-   the subscription ends. See `public/logos/README.md`.
-2. Cancel the Squarespace subscription.
-3. Check the renewal date first — Squarespace refunds annual plans within 14
-   days of renewal, so timing this right can save a year's fee.
+Nothing more to cancel — the site plan is already ended. Just don't cancel the
+**domain** renewal; that's what's keeping `texas180dc.org` yours until Aug 2027.
+
+**Put a calendar reminder for July 2027.** Before that date you can either let
+Squarespace renew it (~$20/yr) or transfer to Cloudflare Registrar (~$10/yr).
+Either is fine; what matters is that someone is watching for it.
 
 ---
 
