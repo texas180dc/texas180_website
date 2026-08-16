@@ -158,7 +158,7 @@ export default function Home() {
           </Lead>
           <div className="mt-10 flex flex-col items-center justify-center gap-3 sm:flex-row">
             <Button href="/join">Join the team</Button>
-            <Button href="/services" className="bg-ink text-paper hover:bg-slate">
+            <Button href="/services" tone="ink">
               Work with us
             </Button>
           </div>

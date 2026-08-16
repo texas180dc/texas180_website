@@ -104,10 +104,7 @@ export default function ServicesPage() {
               <Button href={services.cta.button.href}>
                 {services.cta.button.label}
               </Button>
-              <Button
-                href="/projects"
-                className="bg-ink text-paper hover:bg-slate"
-              >
+              <Button href="/projects" tone="ink">
                 Past projects
               </Button>
             </div>

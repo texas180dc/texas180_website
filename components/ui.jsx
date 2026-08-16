@@ -308,8 +308,31 @@ export function Lead({ dark = false, className = "", children }) {
 
 /* ── Buttons and links ─────────────────────────────────────────────────────── */
 
-/** Solid green pill. The primary action on a screen. */
-export function Button({ href, children, className = "", external, ...rest }) {
+/**
+ * Solid pill button.
+ *
+ *   tone="leaf" (default) — green pill, dark text
+ *   tone="ink"            — near-black pill, white text
+ *
+ * Use the `tone` prop rather than pushing colours through `className`.
+ * Tailwind resolves conflicting utilities by CSS source order, not by their
+ * order in the class string, so `className="bg-ink"` layered over a base
+ * `bg-leaf` wins unpredictably — which is how one pill ended up green with
+ * white text while its neighbour was green with dark text.
+ */
+const BUTTON_TONES = {
+  leaf: "bg-leaf text-ink hover:bg-leaf-dark",
+  ink: "bg-ink text-paper hover:bg-slate",
+};
+
+export function Button({
+  href,
+  children,
+  tone = "leaf",
+  className = "",
+  external,
+  ...rest
+}) {
   const externalProps = external
     ? { target: "_blank", rel: "noopener noreferrer" }
     : {};
@@ -318,7 +341,7 @@ export function Button({ href, children, className = "", external, ...rest }) {
     <a
       href={href}
       {...externalProps}
-      className={`inline-flex items-center justify-center rounded-full bg-leaf px-7 py-3 text-[15px] font-medium text-ink transition-colors duration-300 hover:bg-leaf-dark ${className}`}
+      className={`inline-flex items-center justify-center rounded-full px-7 py-3 text-[15px] font-medium transition-colors duration-300 ${BUTTON_TONES[tone]} ${className}`}
       {...rest}
     >
       {children}
