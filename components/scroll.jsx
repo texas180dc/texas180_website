@@ -61,6 +61,11 @@ function runFrame() {
     if (Math.abs(p - sub.last) < 0.0008) continue;
     sub.last = p;
     el.style.setProperty("--p", p.toFixed(4));
+    // Eased companion. A linear inset/radius reaches "visually finished" long
+    // before p hits 1, which reads as the animation freezing while you keep
+    // scrolling. Squaring pushes the visible change later so it stays in step
+    // with the scrollbar.
+    el.style.setProperty("--e", (p * p).toFixed(4));
   }
 }
 
@@ -135,6 +140,7 @@ export function useScrollProgress(
 
     if (off) {
       el.style.setProperty("--p", String(restingValue));
+      el.style.setProperty("--e", String(restingValue * restingValue));
       return;
     }
 
@@ -190,8 +196,8 @@ export function ZoomReveal({ label, kicker, title, subtitle, children, src }) {
   return (
     <section
       ref={outer}
-      className={`relative bg-paper ${off ? "" : "h-[230svh]"}`}
-      style={{ "--p": 0 }}
+      className={`relative bg-paper ${off ? "" : "h-[170svh]"}`}
+      style={{ "--p": 0, "--e": 0 }}
     >
       <div
         className={`${
@@ -203,9 +209,9 @@ export function ZoomReveal({ label, kicker, title, subtitle, children, src }) {
           style={{
             // The card opens outward from the centre. Content never moves.
             clipPath:
-              "inset(calc(21% * (1 - var(--p))) calc(21% * (1 - var(--p))) round calc(44px * (1 - var(--p))))",
+              "inset(calc(21% * (1 - var(--e))) calc(21% * (1 - var(--e))) round calc(44px * (1 - var(--e))))",
             WebkitClipPath:
-              "inset(calc(21% * (1 - var(--p))) calc(21% * (1 - var(--p))) round calc(44px * (1 - var(--p))))",
+              "inset(calc(21% * (1 - var(--e))) calc(21% * (1 - var(--e))) round calc(44px * (1 - var(--e))))",
             transform: "translateZ(0)",
           }}
         >
@@ -242,7 +248,7 @@ export function ZoomReveal({ label, kicker, title, subtitle, children, src }) {
             {kicker && (
               <p
                 className="text-[12px] font-semibold uppercase tracking-[0.28em] text-leaf"
-                style={{ opacity: "calc(var(--p) * 4 - 0.2)", willChange: "opacity" }}
+                style={{ opacity: "calc(var(--e) * 4 - 0.1)", willChange: "opacity" }}
               >
                 {kicker}
               </p>
@@ -253,7 +259,7 @@ export function ZoomReveal({ label, kicker, title, subtitle, children, src }) {
               className="mt-5 max-w-4xl font-semibold uppercase leading-[1.03] tracking-tightest text-paper"
               style={{
                 fontSize: "clamp(1.8rem, 5.4vw, 4.6rem)",
-                opacity: "calc(var(--p) * 2.4 - 0.5)",
+                opacity: "calc(var(--e) * 2.6 - 0.35)",
                 willChange: "opacity",
               }}
             >
@@ -263,14 +269,14 @@ export function ZoomReveal({ label, kicker, title, subtitle, children, src }) {
             {subtitle && (
               <p
                 className="mx-auto mt-5 max-w-xl text-[17px] leading-relaxed text-paper/70 md:text-[19px]"
-                style={{ opacity: "calc(var(--p) * 2.6 - 1.2)", willChange: "opacity" }}
+                style={{ opacity: "calc(var(--e) * 2.4 - 0.8)", willChange: "opacity" }}
               >
                 {subtitle}
               </p>
             )}
 
             {children && (
-              <div className="mt-9" style={{ opacity: "calc(var(--p) * 3 - 2)", willChange: "opacity" }}>
+              <div className="mt-9" style={{ opacity: "calc(var(--e) * 2.6 - 1.4)", willChange: "opacity" }}>
                 {children}
               </div>
             )}
@@ -336,8 +342,8 @@ export function CircleWipe({ label, quote, attribution, src }) {
   return (
     <section
       ref={outer}
-      className={`relative bg-paper ${off ? "" : "h-[190svh]"}`}
-      style={{ "--p": 0 }}
+      className={`relative bg-paper ${off ? "" : "h-[150svh]"}`}
+      style={{ "--p": 0, "--e": 0 }}
     >
       <div
         className={`${
@@ -347,8 +353,8 @@ export function CircleWipe({ label, quote, attribution, src }) {
         <div
           className="absolute inset-0 bg-ink"
           style={{
-            clipPath: "circle(calc(var(--p) * 115%) at 50% 50%)",
-            WebkitClipPath: "circle(calc(var(--p) * 115%) at 50% 50%)",
+            clipPath: "circle(calc(var(--p) * 72%) at 50% 50%)",
+            WebkitClipPath: "circle(calc(var(--p) * 72%) at 50% 50%)",
             // Promote to its own layer. `will-change: clip-path` is avoided
             // deliberately — in some browsers it pushes clipping off the
             // compositor and onto the main thread, which is the opposite
@@ -388,7 +394,7 @@ export function CircleWipe({ label, quote, attribution, src }) {
             <div
               className="max-w-4xl text-center"
               style={{
-                opacity: "calc(var(--p) * 2.2 - 0.9)",
+                opacity: "calc(var(--p) * 2.4 - 1.05)",
                 transform: "translate3d(0, calc(28px * (1 - var(--p))), 0)",
                 willChange: "opacity, transform",
               }}
