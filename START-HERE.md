@@ -178,9 +178,9 @@ get sign-off before touching the real domain.
 
 # STEP 3 — Point texas180dc.org at it
 
-> ⚠️ **Do not cancel Squarespace during this step.** If the domain came bundled
-> with the plan, cancelling first can put `texas180dc.org` into a recovery
-> state that costs $80–200 to get back.
+> The usual warning here is "don't cancel Squarespace first" — already moot, and
+> it turned out fine because the domain renewed independently of the site plan.
+> The domain is paid to Aug 2027 and stays yours regardless of what happens next.
 
 ### 3a. Already done ✅
 
