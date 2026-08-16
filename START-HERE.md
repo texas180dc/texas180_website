@@ -154,7 +154,28 @@ you lose interest; one owned by an *organization* can be handed over.
 
 # STEP 2 — Put it online (Vercel)
 
-Vercel runs the site. Free, and no card required.
+Vercel runs the site.
+
+> ## 💸 You do NOT need Vercel Pro
+>
+> The free tier is called **Hobby**. It includes custom domains, HTTPS,
+> unlimited deploys, and 100 GB bandwidth a month. This whole site is ~3 MB —
+> a thousand visitors a month would use about 3% of that allowance.
+>
+> **The signup flow pushes you toward a Team, and Teams are Pro ($20/user/mo).**
+> While clicking through:
+>
+> - Plan or "what are you building?" → choose **Hobby** / **Personal**
+> - Offered a **Pro free trial** → **skip it** (trials convert to paid)
+> - Importing the project → deploy under your **personal account**, not a Team
+>
+> The wording shifts over time, but the rule holds: **"Team" = paid,
+> "Hobby"/"Personal" = free.** Hobby needs no card — if you're ever asked for
+> payment details, back out, you're on the wrong path.
+>
+> *The one real limit:* Hobby is for non-commercial projects. A pro bono student
+> org is fine. If T180 ever sells merch or takes payments through the site, move
+> to Cloudflare Pages — also free, no such clause.
 
 1. Go to **vercel.com** → **Sign Up** → **Continue with GitHub** → authorize
 2. On the dashboard click **Add New… → Project**
