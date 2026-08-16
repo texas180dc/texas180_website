@@ -141,8 +141,22 @@ you lose interest; one owned by an *organization* can be handed over.
 4. Click the blue **Publish repository** button at the top
    - **Name:** `website`
    - **Organization:** pick `texas180dc`, *not* your username
-   - **Keep this code private:** ticked
+   - **Keep this code private:** ⚠️ **UNTICK this** — see below
 5. Click **Publish repository**
+
+> ### Why the repo must be public
+>
+> Vercel's free Hobby plan **cannot deploy a private repo owned by an
+> organization**. That combination is Pro-only ($20/mo). It *can* deploy a
+> **public** org repo, which is what we want.
+>
+> **Public means readable, not writable.** Anyone can view the code; only
+> collaborators you add can change it. Nothing sensitive lives here — no
+> passwords, no API keys, no database. It's the source for a site that's public
+> anyway, and `.gitignore` already excludes any `.env` file.
+>
+> If you already published it as private: repo → **Settings** → **Danger Zone**
+> → **Change repository visibility** → **Change to public**.
 
 **✅ Check:** go to `github.com/texas180dc/website` — you should see your files.
 
@@ -179,9 +193,12 @@ Vercel runs the site.
 
 1. Go to **vercel.com** → **Sign Up** → **Continue with GitHub** → authorize
 2. On the dashboard click **Add New… → Project**
-3. Find `texas180dc/website` → click **Import**
+3. Find your repo under `texas180dc` → click **Import**
    - If it's not listed, click **Adjust GitHub App Permissions** and grant
      access to the organization
+   - **If you see "Deploying from a private GitHub organization requires a
+     Vercel Pro plan"** — the repo is still private. Go make it public (Step 1d),
+     then reload this page. Do **not** click "Start Pro Trial and Deploy".
 4. A settings screen appears. **Change nothing.** Framework should already say
    Next.js. Click **Deploy**
 5. Wait ~2 minutes. You'll get confetti and a link like
