@@ -213,9 +213,18 @@ export function ZoomReveal({ label, kicker, title, subtitle, children, src }) {
             <img
               src={src}
               alt={label}
-              loading="lazy"
+              /*
+               * eager, NOT lazy. A lazy image starts downloading and decoding
+               * the moment it nears the viewport — which is exactly when this
+               * animation starts. Decoding a multi-megapixel JPEG blocks the
+               * main thread and the panel freezes part-way open.
+               */
+              loading="eager"
               decoding="async"
               className="absolute inset-0 h-full w-full object-cover"
+              // Own compositor layer, so expanding the clip composites
+              // rather than repainting the photo every frame
+              style={{ transform: "translateZ(0)", backfaceVisibility: "hidden" }}
             />
           ) : (
             <div
@@ -233,7 +242,7 @@ export function ZoomReveal({ label, kicker, title, subtitle, children, src }) {
             {kicker && (
               <p
                 className="text-[12px] font-semibold uppercase tracking-[0.28em] text-leaf"
-                style={{ opacity: "calc(var(--p) * 4 - 0.2)" }}
+                style={{ opacity: "calc(var(--p) * 4 - 0.2)", willChange: "opacity" }}
               >
                 {kicker}
               </p>
@@ -245,6 +254,7 @@ export function ZoomReveal({ label, kicker, title, subtitle, children, src }) {
               style={{
                 fontSize: "clamp(1.8rem, 5.4vw, 4.6rem)",
                 opacity: "calc(var(--p) * 2.4 - 0.5)",
+                willChange: "opacity",
               }}
             >
               {title}
@@ -253,14 +263,14 @@ export function ZoomReveal({ label, kicker, title, subtitle, children, src }) {
             {subtitle && (
               <p
                 className="mx-auto mt-5 max-w-xl text-[17px] leading-relaxed text-paper/70 md:text-[19px]"
-                style={{ opacity: "calc(var(--p) * 2.6 - 1.2)" }}
+                style={{ opacity: "calc(var(--p) * 2.6 - 1.2)", willChange: "opacity" }}
               >
                 {subtitle}
               </p>
             )}
 
             {children && (
-              <div className="mt-9" style={{ opacity: "calc(var(--p) * 3 - 2)" }}>
+              <div className="mt-9" style={{ opacity: "calc(var(--p) * 3 - 2)", willChange: "opacity" }}>
                 {children}
               </div>
             )}
@@ -350,9 +360,18 @@ export function CircleWipe({ label, quote, attribution, src }) {
             <img
               src={src}
               alt={label}
-              loading="lazy"
+              /*
+               * eager, NOT lazy. A lazy image starts downloading and decoding
+               * the moment it nears the viewport — which is exactly when this
+               * animation starts. Decoding a multi-megapixel JPEG blocks the
+               * main thread and the panel freezes part-way open.
+               */
+              loading="eager"
               decoding="async"
               className="absolute inset-0 h-full w-full object-cover"
+              // Own compositor layer, so expanding the clip composites
+              // rather than repainting the photo every frame
+              style={{ transform: "translateZ(0)", backfaceVisibility: "hidden" }}
             />
           ) : (
             <div
@@ -371,6 +390,7 @@ export function CircleWipe({ label, quote, attribution, src }) {
               style={{
                 opacity: "calc(var(--p) * 2.2 - 0.9)",
                 transform: "translate3d(0, calc(28px * (1 - var(--p))), 0)",
+                willChange: "opacity, transform",
               }}
             >
               <p

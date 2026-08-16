@@ -64,9 +64,23 @@ const organizationJsonLd = {
   sameAs: [SOCIAL.instagram, SOCIAL.linkedin],
 };
 
+// Photos used by the two full-screen scroll panels on the home page.
+// They are preloaded so the browser has them decoded well before the visitor
+// scrolls into the animation — otherwise the decode lands mid-animation and
+// the panel visibly freezes part-way open.
+const PANEL_PHOTOS = [
+  CONTENT.home.breakPanel.photoSrc, // the "Real clients" zoom panel
+  CONTENT.home.circle.photoSrc, // the circular wipe near the bottom
+].filter(Boolean);
+
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
+      <head>
+        {PANEL_PHOTOS.map((src) => (
+          <link key={src} rel="preload" as="image" href={src} />
+        ))}
+      </head>
       <body className="relative bg-paper font-sans text-ink">
         <a
           href="#main"
