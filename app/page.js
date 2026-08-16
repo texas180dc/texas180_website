@@ -45,16 +45,6 @@ export default function Home() {
               {home.hero.subtitle}
             </p>
           </Reveal>
-
-          <Reveal delay={150} className="mt-12 w-full">
-            <div className="mx-auto flex w-full max-w-3xl flex-col gap-3 sm:flex-row sm:justify-center">
-              {home.hero.ctas.map((cta) => (
-                <Button key={cta.label} href={cta.href} className="flex-1">
-                  {cta.label}
-                </Button>
-              ))}
-            </div>
-          </Reveal>
         </Container>
 
         <div
