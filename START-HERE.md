@@ -1,3 +1,54 @@
+# ⏰ DEADLINE: Squarespace ends 20 August
+
+Squarespace has been cancelled and the old site goes dark on **20 August**.
+Three things must happen before then, in this order.
+
+## 1. TODAY — make sure you still own the domain
+
+**This is the only step that can't be undone.** Everything else is recoverable;
+losing `texas180dc.org` is not.
+
+1. Go to **lookup.icann.org**, search `texas180dc.org`
+2. Read two lines and write them down:
+   - **Registrar** — who holds it
+   - **Registry Expiry Date** — when it lapses
+
+**If Registrar says Squarespace (or Google LLC):** the domain likely came bundled
+with the plan you cancelled. Log into Squarespace right now and check
+**Settings → Domains**. You need it to say the domain is registered until its
+expiry date, *not* that it ends with the subscription. If it's ending, either
+renew the domain on its own (~$20/yr, Squarespace sells this separately from the
+site plan) or start a transfer to Cloudflare immediately — transfers take 5–7
+days, so there is no slack.
+
+**If Registrar is anyone else** (GoDaddy, Namecheap…) — you're fine. The domain
+is paid for separately and cancelling Squarespace doesn't touch it.
+
+## 2. TODAY — save everything off the old site
+
+On **21 August these files are gone permanently.** The site is still up now.
+
+- **Client logos** — go to <https://www.texas180dc.org/projects>, right-click
+  each logo in the "Our Past Clients" wall → *Save image as…* → into
+  `public/logos/`. See `public/logos/README.md` for the filename to use for each.
+  Nine of them currently load live from Squarespace on the new site and will
+  break on the 20th.
+- **Officer headshots** — <https://www.texas180dc.org/our-team> has the old
+  slate's photos, plus Amit Konda's if it's there.
+- **Any other photos** you might want later.
+
+> If you miss the window the site still works — missing logos show a clean text
+> tile instead of a broken image. But you'd have to re-source them from each
+> organisation.
+
+## 3. Before the 20th — get the new site live
+
+Follow the steps below. If the domain switch isn't finished by the 20th,
+`texas180dc.org` will show nothing for a few days. Not fatal, but avoidable —
+and Google may drop you from results if it stays down.
+
+---
+
 # Launching the site — step by step
 
 First time doing this? This is the whole thing, in order. Nothing is skipped and
