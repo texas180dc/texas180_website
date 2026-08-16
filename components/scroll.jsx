@@ -331,6 +331,25 @@ export function WordCascade({ text, dark = false, className = "" }) {
    A circle opens from the centre of the screen to reveal a full-bleed panel.
    ═══════════════════════════════════════════════════════════════════════════ */
 
+/*
+ * HOW EARLY THE CIRCLE FINISHES — the one number to tune.
+ *
+ * CSS resolves circle(X%) against the diagonal, so the circle covers the whole
+ * screen once X reaches ~71%. Since the radius is `p * CIRCLE_SPEED`, the
+ * animation completes at  p = 71 / CIRCLE_SPEED.
+ *
+ *   CIRCLE_SPEED   finishes at    feel
+ *        90        p = 0.79       very late
+ *       110        p = 0.64       late
+ *       160        p = 0.44       early  ← current
+ *       200        p = 0.35       very early, long hold afterwards
+ *
+ * Higher = finishes sooner. After it completes the panel simply holds until
+ * the section releases, which is a short beat because the pin is only 115svh
+ * (15svh of actual scrolling beyond the sticky stage).
+ */
+const CIRCLE_SPEED = 160;
+
 export function CircleWipe({ label, quote, attribution, src }) {
   const outer = useRef(null);
   const off = useScrollProgress(outer, {
@@ -342,7 +361,7 @@ export function CircleWipe({ label, quote, attribution, src }) {
   return (
     <section
       ref={outer}
-      className={`relative bg-paper ${off ? "" : "h-[125svh]"}`}
+      className={`relative bg-paper ${off ? "" : "h-[115svh]"}`}
       style={{ "--p": 0, "--e": 0 }}
     >
       <div
@@ -353,8 +372,8 @@ export function CircleWipe({ label, quote, attribution, src }) {
         <div
           className="absolute inset-0 bg-ink"
           style={{
-            clipPath: "circle(calc(var(--p) * 110%) at 50% 50%)",
-            WebkitClipPath: "circle(calc(var(--p) * 110%) at 50% 50%)",
+            clipPath: `circle(calc(var(--p) * ${CIRCLE_SPEED}%) at 50% 50%)`,
+            WebkitClipPath: `circle(calc(var(--p) * ${CIRCLE_SPEED}%) at 50% 50%)`,
             // Promote to its own layer. `will-change: clip-path` is avoided
             // deliberately — in some browsers it pushes clipping off the
             // compositor and onto the main thread, which is the opposite
@@ -394,7 +413,7 @@ export function CircleWipe({ label, quote, attribution, src }) {
             <div
               className="max-w-4xl text-center"
               style={{
-                opacity: "calc(var(--p) * 4 - 1.5)",
+                opacity: "calc(var(--p) * 5 - 1.2)",
                 transform: "translate3d(0, calc(28px * (1 - var(--p))), 0)",
                 willChange: "opacity, transform",
               }}
